@@ -11,18 +11,23 @@ public class Pawn extends Piece {
 
     @Override
     Error isCorrectDiagonalMovement(int amountBetweenDiagonalPieces, int pair, Coordinate... coordinates) {
-		if (!this.isAdvanced(coordinates[pair], coordinates[pair+1])) 
+		if (!this.isAdvanced(coordinates[pair], coordinates[pair+1]))
 			return Error.NOT_ADVANCED;
 		int distance = coordinates[pair].getDiagonalDistance(coordinates[pair+1]);
-		if (distance > Pawn.MAX_DISTANCE) 
+		if (distance > Pawn.MAX_DISTANCE)
 			return Error.TOO_MUCH_ADVANCED;
-		if (distance == Pawn.MAX_DISTANCE && amountBetweenDiagonalPieces != 1) 
+		if (distance == Pawn.MAX_DISTANCE && amountBetweenDiagonalPieces != 1)
 			return Error.WITHOUT_EATING;
 		return null;
     }
-    
+
+    @Override
+    boolean canEat(Direction direction) {
+        return false;
+    }
+
     protected char[] getCodes() {
 		return Pawn.CHARACTERS;
 	}
-    
+
 }
