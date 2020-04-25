@@ -125,16 +125,8 @@ class Board {
                 switch (piece.getCode()) {
                     case "B":
                     case "N":
-                        if (pieceToEat != null && pieceToEat.getColor() != piece.getColor() && piece.isAdvanced(coordinate, nivelCoordinate)) {
-                            if (!directionsCantEat.contains(coordinateDirection)) {
-                                Coordinate nextCoordinateOnDirection = coordinate.getNextCoordinateOnCoordinateDirection(nivelCoordinate);
-                                if (nextCoordinateOnDirection != null && getPiece(nextCoordinateOnDirection) == null)
-                                    return true;
-                                if (nextCoordinateOnDirection == null || getPiece(nextCoordinateOnDirection) != null)
-                                    directionsCantEat.add(coordinateDirection);
-                            }
-                        } else if ((pieceToEat != null && pieceToEat.getColor() == piece.getColor()) || !piece.isAdvanced(coordinate, nivelCoordinate))
-                            directionsCantEat.add(coordinateDirection);
+                        if (canEatDraugth(piece, coordinate, directionsCantEat, nivelCoordinate, pieceToEat, coordinateDirection))
+                            return true;
                         break;
                     case "b":
                     case "n":
@@ -150,6 +142,20 @@ class Board {
                 }
             }
         }
+        return false;
+    }
+
+    private boolean canEatDraugth(Piece piece, Coordinate coordinate, HashSet<Direction> directionsCantEat, Coordinate nivelCoordinate, Piece pieceToEat, Direction coordinateDirection) {
+        if (pieceToEat != null && pieceToEat.getColor() != piece.getColor() && piece.isAdvanced(coordinate, nivelCoordinate)) {
+            if (!directionsCantEat.contains(coordinateDirection)) {
+                Coordinate nextCoordinateOnDirection = coordinate.getNextCoordinateOnCoordinateDirection(nivelCoordinate);
+                if (nextCoordinateOnDirection != null && getPiece(nextCoordinateOnDirection) == null)
+                    return true;
+                if (nextCoordinateOnDirection == null || getPiece(nextCoordinateOnDirection) != null)
+                    directionsCantEat.add(coordinateDirection);
+            }
+        } else if ((pieceToEat != null && pieceToEat.getColor() == piece.getColor()) || !piece.isAdvanced(coordinate, nivelCoordinate))
+            directionsCantEat.add(coordinateDirection);
         return false;
     }
 
