@@ -349,19 +349,19 @@ public class CorrectMovesDraughtGameTest extends GameTest {
         setGame(Color.WHITE,
             " B      ",
             "    n   ",
-            "   B    ",
-            "      b ",
+            "       n",
+            "  B   b ",
+            " n      ",
             "        ",
-            "    n   ",
             " n      ",
             "  B     ");
         setExpectedGame(Color.BLACK,
             " B      ",
             "    n   ",
-            "        ",
+            "       n",
             "      b ",
+            " n      ",
             "        ",
-            "    n   ",
             " n B    ",
             "        ");
         assertMove(
@@ -389,6 +389,56 @@ public class CorrectMovesDraughtGameTest extends GameTest {
             "        ",
             " n   b  ",
             "        ");
+        assertMove(
+            new Coordinate(0, 5),
+            new Coordinate(1, 6));
+    }
+
+    @Test
+    public void testGivenGameWhenMoveWhiteWithoutEatingButDontLoosePiece() {
+        setGame(Color.WHITE,
+            " B   n  ",
+            "    n   ",
+            "       n",
+            "  B   b ",
+            "        ",
+            "n       ",
+            " n      ",
+            "  B     ");
+        setExpectedGame(Color.BLACK,
+            " B   n  ",
+            "    n   ",
+            "       n",
+            "  B   b ",
+            "        ",
+            "n       ",
+            " n B    ",
+            "        ");
+        assertMove(
+            new Coordinate(7, 2),
+            new Coordinate(6, 3));
+    }
+
+    @Test
+    public void testGivenGameWhenMoveBlackWithoutEatingButDontLoosePiece() {
+        setGame(Color.BLACK,
+            "     N  ",
+            "        ",
+            "b  b    ",
+            "      b ",
+            "        ",
+            "      N ",
+            " n   b  ",
+            "    b   ");
+        setExpectedGame(Color.WHITE,
+            "        ",
+            "      N ",
+            "b  b    ",
+            "      b ",
+            "        ",
+            "      N ",
+            " n   b  ",
+            "    b   ");
         assertMove(
             new Coordinate(0, 5),
             new Coordinate(1, 6));

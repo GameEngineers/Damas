@@ -48,16 +48,16 @@ public class Game {
 		} while (pair < coordinates.length - 1 && error == null);
 		error = this.isCorrectGlobalMove(error, removedCoordinates, coordinates);
 		if (error == null) {
-            checkRemovePiece(removedCoordinates);
+            checkRemovePiece(removedCoordinates, coordinates[coordinates.length - 1]);
 		    this.turn.change();
         }else
 			this.unMovesUntilPair(removedCoordinates, pair, coordinates);
 		return error;
 	}
 
-    private void checkRemovePiece(List<Coordinate> removedCoordinates) {
+    private void checkRemovePiece(List<Coordinate> removedCoordinates, Coordinate lastCoordinateMove) {
         if (removedCoordinates.isEmpty()) {
-            List<Coordinate> coordinatesWithPieceCanEat = board.getCoordinatesWithPieceCanEat(turn.getColor());
+            List<Coordinate> coordinatesWithPieceCanEat = board.getCoordinatesWithPieceCanEat(turn.getColor(), lastCoordinateMove);
             if (!coordinatesWithPieceCanEat.isEmpty())
                 removeRandomPiece(coordinatesWithPieceCanEat);
         }

@@ -99,15 +99,17 @@ class Board {
         return string + row + "\n";
     }
 
-    public List<Coordinate> getCoordinatesWithPieceCanEat(Color color) {
+    public List<Coordinate> getCoordinatesWithPieceCanEat(Color color, Coordinate lastMoveCoordinate) {
         assert color != null;
         List<Coordinate> piecesCanEat = new ArrayList<Coordinate>();
         for (int i = 0; i < Coordinate.getDimension(); i++) {
             for (int j = 0; j < Coordinate.getDimension(); j++) {
                 Coordinate coordinateToCheck = new Coordinate(i, j);
-                Piece piece = getPiece(coordinateToCheck);
-                if (piece != null && piece.getColor() == color && this.canEat(piece, coordinateToCheck))
-                    piecesCanEat.add(coordinateToCheck);
+                if (!lastMoveCoordinate.equals(coordinateToCheck)) {
+                    Piece piece = getPiece(coordinateToCheck);
+                    if (piece != null && piece.getColor() == color && this.canEat(piece, coordinateToCheck))
+                        piecesCanEat.add(coordinateToCheck);
+                }
             }
         }
         return piecesCanEat;
@@ -128,9 +130,10 @@ class Board {
                                 Coordinate nextCoordinateOnDirection = coordinate.getNextCoordinateOnCoordinateDirection(nivelCoordinate);
                                 if (nextCoordinateOnDirection != null && getPiece(nextCoordinateOnDirection) == null)
                                     return true;
-                                directionsCantEat.add(coordinateDirection);
+                                if (nextCoordinateOnDirection == null || getPiece(nextCoordinateOnDirection) != null)
+                                    directionsCantEat.add(coordinateDirection);
                             }
-                        } else
+                        } else if ((pieceToEat != null && pieceToEat.getColor() == piece.getColor()) || !piece.isAdvanced(coordinate, nivelCoordinate))
                             directionsCantEat.add(coordinateDirection);
                         break;
                     case "b":
