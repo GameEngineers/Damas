@@ -120,17 +120,15 @@ class Board {
         for (int nivel = 1; nivel < Coordinate.getDimension(); nivel++) {
             List<Coordinate> diagonalCoordinates = coordinate.getDiagonalCoordinates(nivel);
             for (Coordinate nivelCoordinate : diagonalCoordinates) {
-                Piece pieceToEat = getPiece(nivelCoordinate);
-                Direction coordinateDirection = coordinate.getDirection(nivelCoordinate);
                 switch (piece.getCode()) {
                     case "B":
                     case "N":
-                        if (canEatDraught(piece, coordinate, directionsCantEat, nivelCoordinate, pieceToEat, coordinateDirection))
+                        if (canEatDraught(piece, coordinate, directionsCantEat, nivelCoordinate))
                             return true;
                         break;
                     case "b":
                     case "n":
-                        Boolean x = canEatPawn(piece, coordinate, nivel, nivelCoordinate, pieceToEat);
+                        Boolean x = canEatPawn(piece, coordinate, nivel, nivelCoordinate);
                         if (x != null) return x;
                         break;
                 }
@@ -139,7 +137,8 @@ class Board {
         return false;
     }
 
-    private Boolean canEatPawn(Piece piece, Coordinate coordinate, int nivel, Coordinate nivelCoordinate, Piece pieceToEat) {
+    private Boolean canEatPawn(Piece piece, Coordinate coordinate, int nivel, Coordinate nivelCoordinate) {
+        Piece pieceToEat = getPiece(nivelCoordinate);
         if (nivel == 1) {
             if (pieceToEat != null && pieceToEat.getColor() != piece.getColor() && piece.isAdvanced(coordinate, nivelCoordinate)) {
                 Coordinate nextCoordinateOnDirection = coordinate.getNextCoordinateOnCoordinateDirection(nivelCoordinate);
@@ -151,7 +150,9 @@ class Board {
         return null;
     }
 
-    private boolean canEatDraught(Piece piece, Coordinate coordinate, HashSet<Direction> directionsCantEat, Coordinate nivelCoordinate, Piece pieceToEat, Direction coordinateDirection) {
+    private boolean canEatDraught(Piece piece, Coordinate coordinate, HashSet<Direction> directionsCantEat, Coordinate nivelCoordinate) {
+        Piece pieceToEat = getPiece(nivelCoordinate);
+        Direction coordinateDirection = coordinate.getDirection(nivelCoordinate);
         if (pieceToEat != null && pieceToEat.getColor() != piece.getColor() && piece.isAdvanced(coordinate, nivelCoordinate)) {
             if (!directionsCantEat.contains(coordinateDirection)) {
                 Coordinate nextCoordinateOnDirection = coordinate.getNextCoordinateOnCoordinateDirection(nivelCoordinate);
