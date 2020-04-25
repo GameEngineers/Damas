@@ -17,10 +17,4 @@ public class Draught extends Piece {
   public String getCode(){
 		return super.getCode().toUpperCase();
   }
-
-    @Override
-    boolean canEat(Direction direction) {
-        return false;
-    }
-
 }

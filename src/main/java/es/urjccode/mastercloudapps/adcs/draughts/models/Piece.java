@@ -73,7 +73,4 @@ public abstract class Piece {
 			return false;
 		return true;
 	}
-
-    abstract boolean canEat(Direction direction);
-
 }

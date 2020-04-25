@@ -98,27 +98,21 @@ class Board {
         return string + row + "\n";
     }
 
-    public List<Coordinate> getPiecesCanEat(Color color){
+    public List<Coordinate> getPiecesCanEat(Color color) {
         List<Coordinate> piecesCanEat = new ArrayList<Coordinate>();
         for (int i = 0; i < Coordinate.getDimension(); i++) {
             for (int j = 0; j < Coordinate.getDimension(); j++) {
                 Coordinate coordinateToCheckCanEat = new Coordinate(i, j);
-                Piece piece = this.getPiece(coordinateToCheckCanEat);
-                if (piece != null && piece.getColor() == color){
-                    switch (piece.getColor()){
-                        case BLACK:
-                        if (piece.canEat(Direction.SE) || piece.canEat(Direction.SW))
-                            piecesCanEat.add(coordinateToCheckCanEat);
-                        break;
-                        case WHITE:
-                        if (piece.canEat(Direction.NE) || piece.canEat(Direction.NW))
-                            piecesCanEat.add(coordinateToCheckCanEat);
-                        break;
-                    }
-                }
+                if (this.canEat(coordinateToCheckCanEat, Direction.SE, color) || this.canEat(coordinateToCheckCanEat, Direction.SW, color) ||
+                    this.canEat(coordinateToCheckCanEat, Direction.NE, color) || this.canEat(coordinateToCheckCanEat, Direction.NW, color))
+                    piecesCanEat.add(coordinateToCheckCanEat);
             }
         }
         return piecesCanEat;
+    }
+
+    public boolean canEat(Coordinate coordinate, Direction direction, Color color) {
+        return false;
     }
 
     @Override

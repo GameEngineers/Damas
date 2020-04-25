@@ -21,11 +21,6 @@ public class Pawn extends Piece {
 		return null;
     }
 
-    @Override
-    boolean canEat(Direction direction) {
-        return false;
-    }
-
     protected char[] getCodes() {
 		return Pawn.CHARACTERS;
 	}
