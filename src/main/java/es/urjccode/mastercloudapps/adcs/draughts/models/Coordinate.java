@@ -47,8 +47,8 @@ public class Coordinate {
     Direction getDirection(Coordinate coordinate) {
         assert coordinate != null;
         Coordinate substract = coordinate.substract(this);
-        for (Direction direction : Direction.values()) 
-            if (direction.isOnDirection(substract)) 
+        for (Direction direction : Direction.values())
+            if (direction.isOnDirection(substract))
                 return direction;
         return null;
     }
@@ -88,6 +88,15 @@ public class Coordinate {
                 diagonalCoordinates.add(diagonalCoordinate);
         }
         return diagonalCoordinates;
+    }
+
+    Coordinate getNextCoordinateOnCoordinateDirection(Coordinate coordinate){
+        assert this.getDirection(coordinate) != null;
+        Direction direction = this.getDirection(coordinate);
+        Coordinate nextCoordinate = this.plus(direction.getDistanceCoordinate(getDiagonalDistance(coordinate) + 1));
+        if (nextCoordinate.isWithIn())
+            return nextCoordinate;
+        return null;
     }
 
     boolean isBlack() {

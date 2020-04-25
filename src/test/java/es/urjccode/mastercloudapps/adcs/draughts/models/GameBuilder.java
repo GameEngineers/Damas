@@ -1,8 +1,13 @@
 package es.urjccode.mastercloudapps.adcs.draughts.models;
 
+import org.mockito.Mockito;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.regex.Pattern;
+
+import static org.mockito.Mockito.when;
 
 public class GameBuilder {
 
@@ -31,7 +36,9 @@ public class GameBuilder {
         if (this.strings.size() == 0)
             return new Game();
         Board board = new Board();
-        Game game = new Game(board);
+        Random randomNumberMock = Mockito.mock(Random.class);
+        when(randomNumberMock.nextInt()).thenReturn(0);
+        Game game = new Game(board, randomNumberMock);
         assert this.strings.size() == Coordinate.getDimension();
         this.setColor(game, board);
         for (int i = 0; i < this.strings.size(); i++) {

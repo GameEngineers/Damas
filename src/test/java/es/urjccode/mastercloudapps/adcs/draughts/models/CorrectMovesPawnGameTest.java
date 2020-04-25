@@ -9,7 +9,7 @@ public class CorrectMovesPawnGameTest extends GameTest {
 
     private void assertMove(Coordinate... coordinates){
         assertNull(this.game.move(coordinates));
-        assertEquals(this.game, this.expectedGame);
+        assertEquals(this.expectedGame, this.game);
     }
 
     @Test
@@ -219,7 +219,7 @@ public class CorrectMovesPawnGameTest extends GameTest {
             "        ",
             "        ",
             "        ",
-            "  b     ",
+            "      b ",
             " n      ",
             "b   n   ",
             "     b  ",
@@ -228,7 +228,7 @@ public class CorrectMovesPawnGameTest extends GameTest {
             "        ",
             "        ",
             "        ",
-            "  b     ",
+            "      b ",
             " n      ",
             "    n b ",
             "        ",
@@ -247,7 +247,7 @@ public class CorrectMovesPawnGameTest extends GameTest {
             "        ",
             "  b   n ",
             " n      ",
-            "  b n   ",
+            "  b   n ",
             "     b  ",
             "        ");
         this.setExpectedGame(Color.WHITE,
@@ -257,11 +257,11 @@ public class CorrectMovesPawnGameTest extends GameTest {
             "  b   n ",
             "        ",
             "  b     ",
-            "   n b  ",
+            "     b n",
             "        ");
         this.assertMove(
-            new Coordinate(5, 4),
-            new Coordinate(6, 3)
+            new Coordinate(5, 6),
+            new Coordinate(6, 7)
         );
     }
 

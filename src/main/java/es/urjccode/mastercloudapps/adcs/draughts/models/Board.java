@@ -3,6 +3,7 @@ package es.urjccode.mastercloudapps.adcs.draughts.models;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.HashSet;
 
 class Board {
 
@@ -98,20 +99,54 @@ class Board {
         return string + row + "\n";
     }
 
-    public List<Coordinate> getPiecesCanEat(Color color) {
+    public List<Coordinate> getCoordinatesWithPieceCanEat(Color color) {
+        assert color != null;
         List<Coordinate> piecesCanEat = new ArrayList<Coordinate>();
         for (int i = 0; i < Coordinate.getDimension(); i++) {
             for (int j = 0; j < Coordinate.getDimension(); j++) {
-                Coordinate coordinateToCheckCanEat = new Coordinate(i, j);
-                if (this.canEat(coordinateToCheckCanEat, Direction.SE, color) || this.canEat(coordinateToCheckCanEat, Direction.SW, color) ||
-                    this.canEat(coordinateToCheckCanEat, Direction.NE, color) || this.canEat(coordinateToCheckCanEat, Direction.NW, color))
-                    piecesCanEat.add(coordinateToCheckCanEat);
+                Coordinate coordinateToCheck = new Coordinate(i, j);
+                Piece piece = getPiece(coordinateToCheck);
+                if (piece != null && piece.getColor() == color && this.canEat(piece, coordinateToCheck))
+                    piecesCanEat.add(coordinateToCheck);
             }
         }
         return piecesCanEat;
     }
 
-    public boolean canEat(Coordinate coordinate, Direction direction, Color color) {
+    private boolean canEat(Piece piece, Coordinate coordinate) {
+        HashSet<Direction> directionsCantEat = new HashSet<Direction>();
+        for (int nivel = 1; nivel < Coordinate.getDimension(); nivel++) {
+            List<Coordinate> diagonalCoordinates = coordinate.getDiagonalCoordinates(nivel);
+            for (Coordinate nivelCoordinate : diagonalCoordinates) {
+                Piece pieceToEat = getPiece(nivelCoordinate);
+                Direction coordinateDirection = coordinate.getDirection(nivelCoordinate);
+                switch (piece.getCode()) {
+                    case "B":
+                    case "N":
+                        if (pieceToEat != null && pieceToEat.getColor() != piece.getColor() && piece.isAdvanced(coordinate, nivelCoordinate)) {
+                            if (!directionsCantEat.contains(coordinateDirection)) {
+                                Coordinate nextCoordinateOnDirection = coordinate.getNextCoordinateOnCoordinateDirection(nivelCoordinate);
+                                if (nextCoordinateOnDirection != null && getPiece(nextCoordinateOnDirection) == null)
+                                    return true;
+                                directionsCantEat.add(coordinateDirection);
+                            }
+                        } else
+                            directionsCantEat.add(coordinateDirection);
+                        break;
+                    case "b":
+                    case "n":
+                        if (nivel == 1) {
+                            if (pieceToEat != null && pieceToEat.getColor() != piece.getColor() && piece.isAdvanced(coordinate, nivelCoordinate)) {
+                                Coordinate nextCoordinateOnDirection = coordinate.getNextCoordinateOnCoordinateDirection(nivelCoordinate);
+                                if (nextCoordinateOnDirection != null && getPiece(nextCoordinateOnDirection) == null)
+                                    return true;
+                            }
+                        }else
+                            return false;
+                        break;
+                }
+            }
+        }
         return false;
     }
 

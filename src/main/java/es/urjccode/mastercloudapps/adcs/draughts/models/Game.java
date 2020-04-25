@@ -2,19 +2,22 @@ package es.urjccode.mastercloudapps.adcs.draughts.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Game {
 
 	private Board board;
 	private Turn turn;
+    private Random random;
 
-	Game(Board board) {
+	Game(Board board, Random random) {
 		this.turn = new Turn();
 		this.board = board;
+		this.random = random;
 	}
 
 	public Game() {
-		this(new Board());
+		this(new Board(), new Random(System.currentTimeMillis()));
 		this.reset();
 	}
 
@@ -44,14 +47,29 @@ public class Game {
 			}
 		} while (pair < coordinates.length - 1 && error == null);
 		error = this.isCorrectGlobalMove(error, removedCoordinates, coordinates);
-		if (error == null)
-			this.turn.change();
-		else
+		if (error == null) {
+            checkRemovePiece(removedCoordinates);
+		    this.turn.change();
+        }else
 			this.unMovesUntilPair(removedCoordinates, pair, coordinates);
 		return error;
 	}
 
-	private Error isCorrectPairMove(int pair, Coordinate... coordinates) {
+    private void checkRemovePiece(List<Coordinate> removedCoordinates) {
+        if (removedCoordinates.isEmpty()) {
+            List<Coordinate> coordinatesWithPieceCanEat = board.getCoordinatesWithPieceCanEat(turn.getColor());
+            if (!coordinatesWithPieceCanEat.isEmpty())
+                removeRandomPiece(coordinatesWithPieceCanEat);
+        }
+    }
+
+    private void removeRandomPiece(List<Coordinate> coordinatesWithPieceCanEat) {
+	    random.setSeed(System.currentTimeMillis());
+        int PieceRandomIndex = random.nextInt(coordinatesWithPieceCanEat.size());
+        board.remove(coordinatesWithPieceCanEat.get(PieceRandomIndex));
+    }
+
+    private Error isCorrectPairMove(int pair, Coordinate... coordinates) {
 		assert coordinates[pair] != null;
 		assert coordinates[pair + 1] != null;
 		if (board.isEmpty(coordinates[pair]))

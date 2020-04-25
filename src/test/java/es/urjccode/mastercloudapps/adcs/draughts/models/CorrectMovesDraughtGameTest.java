@@ -9,7 +9,7 @@ public class CorrectMovesDraughtGameTest extends GameTest {
 
     private void assertMove(Coordinate... coordinates) {
         assertNull(this.game.move(coordinates));
-        assertEquals(this.game, this.expectedGame);
+        assertEquals(this.expectedGame, this.game);
     }
 
     @Test
@@ -347,21 +347,21 @@ public class CorrectMovesDraughtGameTest extends GameTest {
     @Test
     public void testGivenGameWhenMoveWhiteWithoutEatingThenLoosePieceCanEat() {
         setGame(Color.WHITE,
-            "        ",
+            " B      ",
             "    n   ",
-            "B  B    ",
+            "   B    ",
             "      b ",
             "        ",
-            "    n n ",
+            "    n   ",
             " n      ",
             "  B     ");
         setExpectedGame(Color.BLACK,
-            "        ",
+            " B      ",
             "    n   ",
-            "B       ",
+            "        ",
             "      b ",
             "        ",
-            "    n n ",
+            "    n   ",
             " n B    ",
             "        ");
         assertMove(
