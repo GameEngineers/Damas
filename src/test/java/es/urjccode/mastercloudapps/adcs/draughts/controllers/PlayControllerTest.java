@@ -49,10 +49,10 @@ public class PlayControllerTest {
     @Test
     public void testGivenPlayControllerWhenMoveWithoutMovementsThenIsBlocked() {
         Game game = new GameBuilder().rows(
-            "        ",
-            "        ",
             "   n    ",
             "  b b   ",
+            "        ",
+            "        ",
             "     b  ",
             "b       ",
             "        ",
