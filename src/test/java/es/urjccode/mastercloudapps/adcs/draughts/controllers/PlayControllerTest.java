@@ -51,7 +51,7 @@ public class PlayControllerTest {
         Game game = new GameBuilder().rows(
             "   n    ",
             "  b b   ",
-            "        ",
+            " b   b  ",
             "        ",
             "     b  ",
             "b       ",
