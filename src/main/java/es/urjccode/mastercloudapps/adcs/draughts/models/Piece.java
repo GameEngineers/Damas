@@ -75,7 +75,11 @@ public abstract class Piece {
 		return true;
 	}
 
-    boolean canEatPawn(Coordinate coordinate, Coordinate diagonalCoordinate, Board board) {
+    boolean pawnCanEat(Coordinate coordinate, Coordinate diagonalCoordinate, Board board) {
+	    assert diagonalCoordinate != null;
+	    assert coordinate != null;
+	    assert board != null;
+	    assert coordinate.isOnDiagonal(diagonalCoordinate);
         Piece pieceToEat = board.getPiece(diagonalCoordinate);
         Coordinate nextCoordinateOnDirection = coordinate.getNextCoordinateOnCoordinateDirection(diagonalCoordinate);
         if (pieceToEat == null || nextCoordinateOnDirection == null || board.getPiece(nextCoordinateOnDirection) != null)
@@ -87,7 +91,12 @@ public abstract class Piece {
         return false;
     }
 
-    boolean canEatDraught(Coordinate coordinate, HashSet<Direction> directionsCantEat, Coordinate diagonalCoordinate, Board board) {
+    boolean draughtCanEat(Coordinate coordinate, HashSet<Direction> directionsCantEat, Coordinate diagonalCoordinate, Board board) {
+        assert diagonalCoordinate != null;
+        assert coordinate != null;
+        assert board != null;
+        assert coordinate.isOnDiagonal(diagonalCoordinate);
+        assert directionsCantEat != null;
         Piece pieceToEat = board.getPiece(diagonalCoordinate);
         Direction coordinateDirection = coordinate.getDirection(diagonalCoordinate);
         if (pieceToEat != null && pieceToEat.getColor() != getColor() && isAdvanced(coordinate, diagonalCoordinate)) {

@@ -123,11 +123,11 @@ class Board {
                 switch (piece.getCode()) {
                     case "B":
                     case "N":
-                        if (piece.canEatDraught(coordinate, directionsCantEat, diagonalCoordinate, this))
+                        if (piece.draughtCanEat(coordinate, directionsCantEat, diagonalCoordinate, this))
                             return true;
                     case "b":
                     case "n":
-                        if (piece.canEatPawn(coordinate, diagonalCoordinate, this))
+                        if (piece.pawnCanEat(coordinate, diagonalCoordinate, this))
                             return true;
                 }
             }
