@@ -1,5 +1,6 @@
 package es.urjccode.mastercloudapps.adcs.draughts.models;
 
+import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -36,9 +37,9 @@ public class GameBuilder {
         if (this.strings.size() == 0)
             return new Game();
         Board board = new Board();
-        Random randomNumberMock = Mockito.mock(Random.class);
-        when(randomNumberMock.nextInt()).thenReturn(0);
-        Game game = new Game(board, randomNumberMock);
+//        Random randomNumberMock = Mockito.mock(Random.class);
+//        when(randomNumberMock.nextInt()).thenReturn(0);
+        Game game = new Game(board, new Random(System.currentTimeMillis()));
         assert this.strings.size() == Coordinate.getDimension();
         this.setColor(game, board);
         for (int i = 0; i < this.strings.size(); i++) {

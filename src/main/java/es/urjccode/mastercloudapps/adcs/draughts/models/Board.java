@@ -119,15 +119,15 @@ class Board {
         HashSet<Direction> directionsCantEat = new HashSet<Direction>();
         for (int nivel = 1; nivel < Coordinate.getDimension(); nivel++) {
             List<Coordinate> diagonalCoordinates = coordinate.getDiagonalCoordinates(nivel);
-            for (Coordinate nivelCoordinate : diagonalCoordinates) {
+            for (Coordinate diagonalCoordinate : diagonalCoordinates) {
                 switch (piece.getCode()) {
                     case "B":
                     case "N":
-                        if (canEatDraught(piece, coordinate, directionsCantEat, nivelCoordinate))
+                        if (canEatDraught(piece, coordinate, directionsCantEat, diagonalCoordinate))
                             return true;
                     case "b":
                     case "n":
-                        if (canEatPawn(piece, coordinate, nivel, nivelCoordinate))
+                        if (canEatPawn(piece, coordinate, diagonalCoordinate))
                             return true;
                 }
             }
@@ -135,11 +135,11 @@ class Board {
         return false;
     }
 
-    private Boolean canEatPawn(Piece piece, Coordinate coordinate, int nivel, Coordinate nivelCoordinate) {
-        Piece pieceToEat = getPiece(nivelCoordinate);
-        if (nivel == 1) {
-            if (pieceToEat != null && pieceToEat.getColor() != piece.getColor() && piece.isAdvanced(coordinate, nivelCoordinate)) {
-                Coordinate nextCoordinateOnDirection = coordinate.getNextCoordinateOnCoordinateDirection(nivelCoordinate);
+    private Boolean canEatPawn(Piece piece, Coordinate coordinate, Coordinate diagonalCoordinate) {
+        Piece pieceToEat = getPiece(diagonalCoordinate);
+        if (coordinate.getDiagonalDistance(diagonalCoordinate) == 1) {
+            if (pieceToEat != null && pieceToEat.getColor() != piece.getColor() && piece.isAdvanced(coordinate, diagonalCoordinate)) {
+                Coordinate nextCoordinateOnDirection = coordinate.getNextCoordinateOnCoordinateDirection(diagonalCoordinate);
                 if (nextCoordinateOnDirection != null && getPiece(nextCoordinateOnDirection) == null)
                     return true;
             }
@@ -147,18 +147,18 @@ class Board {
         return false;
     }
 
-    private boolean canEatDraught(Piece piece, Coordinate coordinate, HashSet<Direction> directionsCantEat, Coordinate nivelCoordinate) {
-        Piece pieceToEat = getPiece(nivelCoordinate);
-        Direction coordinateDirection = coordinate.getDirection(nivelCoordinate);
-        if (pieceToEat != null && pieceToEat.getColor() != piece.getColor() && piece.isAdvanced(coordinate, nivelCoordinate)) {
+    private boolean canEatDraught(Piece piece, Coordinate coordinate, HashSet<Direction> directionsCantEat, Coordinate diagonalCoordinate) {
+        Piece pieceToEat = getPiece(diagonalCoordinate);
+        Direction coordinateDirection = coordinate.getDirection(diagonalCoordinate);
+        if (pieceToEat != null && pieceToEat.getColor() != piece.getColor() && piece.isAdvanced(coordinate, diagonalCoordinate)) {
             if (!directionsCantEat.contains(coordinateDirection)) {
-                Coordinate nextCoordinateOnDirection = coordinate.getNextCoordinateOnCoordinateDirection(nivelCoordinate);
+                Coordinate nextCoordinateOnDirection = coordinate.getNextCoordinateOnCoordinateDirection(diagonalCoordinate);
                 if (nextCoordinateOnDirection != null && getPiece(nextCoordinateOnDirection) == null)
                     return true;
                 if (nextCoordinateOnDirection == null || getPiece(nextCoordinateOnDirection) != null)
                     directionsCantEat.add(coordinateDirection);
             }
-        } else if ((pieceToEat != null && pieceToEat.getColor() == piece.getColor()) || !piece.isAdvanced(coordinate, nivelCoordinate))
+        } else if ((pieceToEat != null && pieceToEat.getColor() == piece.getColor()) || !piece.isAdvanced(coordinate, diagonalCoordinate))
             directionsCantEat.add(coordinateDirection);
         return false;
     }
