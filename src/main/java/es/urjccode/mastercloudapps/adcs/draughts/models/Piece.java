@@ -75,15 +75,15 @@ public abstract class Piece {
 		return true;
 	}
 
-    Boolean canEatPawn(Coordinate coordinate, Coordinate diagonalCoordinate, Board board) {
+    boolean canEatPawn(Coordinate coordinate, Coordinate diagonalCoordinate, Board board) {
         Piece pieceToEat = board.getPiece(diagonalCoordinate);
-        if (coordinate.getDiagonalDistance(diagonalCoordinate) == 1) {
-            if (pieceToEat != null && pieceToEat.getColor() != getColor() && isAdvanced(coordinate, diagonalCoordinate)) {
-                Coordinate nextCoordinateOnDirection = coordinate.getNextCoordinateOnCoordinateDirection(diagonalCoordinate);
-                if (nextCoordinateOnDirection != null && board.getPiece(nextCoordinateOnDirection) == null)
-                    return true;
-            }
-        }
+        Coordinate nextCoordinateOnDirection = coordinate.getNextCoordinateOnCoordinateDirection(diagonalCoordinate);
+        if (pieceToEat == null || nextCoordinateOnDirection == null || board.getPiece(nextCoordinateOnDirection) != null)
+            return false;
+        if (coordinate.getDiagonalDistance(diagonalCoordinate) > 1)
+            return false;
+        if (pieceToEat.getColor() != getColor() && isAdvanced(coordinate, diagonalCoordinate))
+            return true;
         return false;
     }
 
