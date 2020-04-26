@@ -423,8 +423,8 @@ public class CorrectMovesDraughtGameTest extends GameTest {
     public void testGivenGameWhenMoveBlackWithoutEatingButDontLoosePiece() {
         setGame(Color.BLACK,
             "     N  ",
-            "        ",
-            "b  b    ",
+            "    b   ",
+            "b       ",
             "      b ",
             "        ",
             "      N ",
@@ -432,8 +432,8 @@ public class CorrectMovesDraughtGameTest extends GameTest {
             "    b   ");
         setExpectedGame(Color.WHITE,
             "        ",
-            "      N ",
-            "b  b    ",
+            "    b   ",
+            "b      N",
             "      b ",
             "        ",
             "      N ",
@@ -441,6 +441,6 @@ public class CorrectMovesDraughtGameTest extends GameTest {
             "    b   ");
         assertMove(
             new Coordinate(0, 5),
-            new Coordinate(1, 6));
+            new Coordinate(2, 7));
     }
 }

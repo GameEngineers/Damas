@@ -86,9 +86,7 @@ public abstract class Piece {
             return false;
         if (coordinate.getDiagonalDistance(diagonalCoordinate) > 1)
             return false;
-        if (pieceToEat.getColor() != getColor() && isAdvanced(coordinate, diagonalCoordinate))
-            return true;
-        return false;
+        return pieceToEat.getColor() != getColor() && isAdvanced(coordinate, diagonalCoordinate);
     }
 
     boolean draughtCanEat(Coordinate coordinate, HashSet<Direction> directionsCantEat, Coordinate diagonalCoordinate, Board board) {
@@ -98,17 +96,18 @@ public abstract class Piece {
         assert coordinate.isOnDiagonal(diagonalCoordinate);
         assert directionsCantEat != null;
         Piece pieceToEat = board.getPiece(diagonalCoordinate);
-        Direction coordinateDirection = coordinate.getDirection(diagonalCoordinate);
-        if (pieceToEat != null && pieceToEat.getColor() != getColor() && isAdvanced(coordinate, diagonalCoordinate)) {
-            if (!directionsCantEat.contains(coordinateDirection)) {
-                Coordinate nextCoordinateOnDirection = coordinate.getNextCoordinateOnCoordinateDirection(diagonalCoordinate);
-                if (nextCoordinateOnDirection != null && board.getPiece(nextCoordinateOnDirection) == null)
-                    return true;
-                if (nextCoordinateOnDirection == null || board.getPiece(nextCoordinateOnDirection) != null)
-                    directionsCantEat.add(coordinateDirection);
-            }
-        } else if ((pieceToEat != null && pieceToEat.getColor() == getColor()) || !isAdvanced(coordinate, diagonalCoordinate))
-            directionsCantEat.add(coordinateDirection);
-        return false;
+        Coordinate nextCoordinateOnDirection = coordinate.getNextCoordinateOnCoordinateDirection(diagonalCoordinate);
+        Direction diagonalDirection = coordinate.getDirection(diagonalCoordinate);
+        if (pieceToEat == null)
+            return false;
+        if (nextCoordinateOnDirection == null || board.getPiece(nextCoordinateOnDirection) != null) {
+            directionsCantEat.add(diagonalDirection);
+            return false;
+        }
+        if (pieceToEat.getColor() == getColor()) {
+            directionsCantEat.add(diagonalDirection);
+            return false;
+        }
+        return !directionsCantEat.contains(diagonalDirection);
     }
 }
