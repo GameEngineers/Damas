@@ -79,7 +79,7 @@ public class Game {
 		if (!this.board.isEmpty(coordinates[pair + 1]))
 			return Error.NOT_EMPTY_TARGET;
 		List<Pawn> betweenDiagonalPawns =
-			this.board.getBetweenDiagonalPieces(coordinates[pair], coordinates[pair + 1]);
+			this.board.getBetweenDiagonalPawns(coordinates[pair], coordinates[pair + 1]);
 		return this.board.getPiece(coordinates[pair]).isCorrectMovement(betweenDiagonalPawns, pair, coordinates);
 	}
 

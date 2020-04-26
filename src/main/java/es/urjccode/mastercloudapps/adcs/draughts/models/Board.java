@@ -36,7 +36,7 @@ class Board {
         this.put(target, this.remove(origin));
     }
 
-    List<Pawn> getBetweenDiagonalPieces(Coordinate origin, Coordinate target) {
+    List<Pawn> getBetweenDiagonalPawns(Coordinate origin, Coordinate target) {
         List<Pawn> betweenDiagonalPawns = new ArrayList<Pawn>();
         if (origin.isOnDiagonal(target))
             for (Coordinate coordinate : origin.getBetweenDiagonalCoordinates(target)) {
@@ -111,7 +111,7 @@ class Board {
     }
 
     private boolean canMoveEating(Pawn pawn, Coordinate... coordinates) {
-        List<Pawn> betweenDiagonalPawns = getBetweenDiagonalPieces(coordinates[0], coordinates[coordinates.length - 1]);
+        List<Pawn> betweenDiagonalPawns = getBetweenDiagonalPawns(coordinates[0], coordinates[coordinates.length - 1]);
         Error error = pawn.isCorrectMovement(betweenDiagonalPawns, 0, coordinates);
         if (error == null && !betweenDiagonalPawns.isEmpty() && isEmpty(coordinates[coordinates.length - 1]))
             return true;
