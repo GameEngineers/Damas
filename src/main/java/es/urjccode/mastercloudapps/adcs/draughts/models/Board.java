@@ -91,15 +91,11 @@ class Board {
     public List<Coordinate> getCoordinatesWithPieceCanEat(Color color, Coordinate lastMoveCoordinate) {
         assert color != null;
         List<Coordinate> piecesCanEat = new ArrayList<Coordinate>();
-        for (int i = 0; i < Coordinate.getDimension(); i++) {
-            for (int j = 0; j < Coordinate.getDimension(); j++) {
-                Coordinate coordinateToCheck = new Coordinate(i, j);
-                if (!lastMoveCoordinate.equals(coordinateToCheck)) {
-                    Piece piece = getPiece(coordinateToCheck);
-                    if (piece != null && piece.getColor() == color && this.canEat(piece, coordinateToCheck))
-                        piecesCanEat.add(coordinateToCheck);
-                }
-            }
+        List<Coordinate> coordinatesWithActualColor = getCoordinatesWithActualColor(color);
+        for (Coordinate coordinate : coordinatesWithActualColor) {
+            Piece piece = getPiece(coordinate);
+            if (!lastMoveCoordinate.equals(coordinate) && this.canEat(piece, coordinate))
+                piecesCanEat.add(coordinate);
         }
         return piecesCanEat;
     }
@@ -109,7 +105,7 @@ class Board {
             List<Coordinate> diagonalCoordinates = coordinate.getDiagonalCoordinates(nivel);
             for (Coordinate diagonalCoordinate : diagonalCoordinates) {
                 List<Piece> pieces = getBetweenDiagonalPieces(coordinate, diagonalCoordinate);
-                Coordinate[] coordinates = { coordinate, diagonalCoordinate};
+                Coordinate[] coordinates = {coordinate, diagonalCoordinate};
                 if (canMoveEating(piece, pieces, coordinates))
                     return true;
             }
@@ -117,7 +113,7 @@ class Board {
         return false;
     }
 
-    private boolean canMoveEating(Piece piece, List<Piece> beetweenDiagonalPieces, Coordinate... coordinates){
+    private boolean canMoveEating(Piece piece, List<Piece> beetweenDiagonalPieces, Coordinate... coordinates) {
         Error error = piece.isCorrectMovement(beetweenDiagonalPieces, 0, coordinates);
         if (error == null && !beetweenDiagonalPieces.isEmpty() && isEmpty(coordinates[1]))
             return true;
@@ -146,13 +142,13 @@ class Board {
         return true;
     }
 
-    List<Coordinate> getCoordinatesWithActualColor(Game game) {
+    List<Coordinate> getCoordinatesWithActualColor(Color color) {
         List<Coordinate> coordinates = new ArrayList<Coordinate>();
-        for (int i = 0; i < game.getDimension(); i++) {
-            for (int j = 0; j < game.getDimension(); j++) {
+        for (int i = 0; i < Coordinate.getDimension(); i++) {
+            for (int j = 0; j < Coordinate.getDimension(); j++) {
                 Coordinate coordinate = new Coordinate(i, j);
-                Piece piece = game.getPiece(coordinate);
-                if (piece != null && piece.getColor() == game.getTurnColor())
+                Piece piece = getPiece(coordinate);
+                if (piece != null && piece.getColor() == color)
                     coordinates.add(coordinate);
             }
         }

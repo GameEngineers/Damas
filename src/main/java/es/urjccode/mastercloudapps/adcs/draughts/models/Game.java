@@ -125,7 +125,7 @@ public class Game {
 	}
 
 	public boolean isBlocked() {
-		for (Coordinate coordinate : this.board.getCoordinatesWithActualColor(this))
+		for (Coordinate coordinate : this.board.getCoordinatesWithActualColor(this.turn.getColor()))
 			if (!this.isBlocked(coordinate))
 				return false;
 		return true;
@@ -140,7 +140,7 @@ public class Game {
 	}
 
 	public void cancel() {
-		for (Coordinate coordinate : this.board.getCoordinatesWithActualColor(this))
+		for (Coordinate coordinate : this.board.getCoordinatesWithActualColor(this.turn.getColor()))
 			this.board.remove(coordinate);
 		this.turn.change();
 	}
