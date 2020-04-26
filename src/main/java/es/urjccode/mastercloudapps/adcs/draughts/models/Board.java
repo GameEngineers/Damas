@@ -110,14 +110,14 @@ class Board {
             for (Coordinate diagonalCoordinate : diagonalCoordinates) {
                 List<Piece> pieces = getBetweenDiagonalPieces(coordinate, diagonalCoordinate);
                 Coordinate[] coordinates = { coordinate, diagonalCoordinate};
-                if (canMoveWithEating(piece, pieces, coordinates))
+                if (canMoveEating(piece, pieces, coordinates))
                     return true;
             }
         }
         return false;
     }
 
-    private boolean canMoveWithEating(Piece piece, List<Piece> beetweenDiagonalPieces, Coordinate... coordinates){
+    private boolean canMoveEating(Piece piece, List<Piece> beetweenDiagonalPieces, Coordinate... coordinates){
         Error error = piece.isCorrectMovement(beetweenDiagonalPieces, 0, coordinates);
         if (error == null && !beetweenDiagonalPieces.isEmpty() && isEmpty(coordinates[1]))
             return true;
