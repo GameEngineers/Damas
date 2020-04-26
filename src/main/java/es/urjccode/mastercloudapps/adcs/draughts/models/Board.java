@@ -1,11 +1,8 @@
 package es.urjccode.mastercloudapps.adcs.draughts.models;
 
-import sun.applet.AppletIOException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.HashSet;
 
 class Board {
 
@@ -123,16 +120,16 @@ class Board {
             for (Coordinate diagonalCoordinate : diagonalCoordinates) {
                 List<Piece> pieces = getBetweenDiagonalPieces(coordinate, diagonalCoordinate);
                 Coordinate[] coordinates = { coordinate, diagonalCoordinate};
-                if (canMoveWithEating(piece, pieces, 0, coordinates))
+                if (canMoveWithEating(piece, pieces, coordinates))
                     return true;
             }
         }
         return false;
     }
 
-    private boolean canMoveWithEating(Piece piece, List<Piece> beetweenDiagonalPieces, int pair, Coordinate... coordinates){
-        Error error = piece.isCorrectMovement(beetweenDiagonalPieces, pair, coordinates);
-        if (error == null && !beetweenDiagonalPieces.isEmpty() && isEmpty(coordinates[pair + 1]))
+    private boolean canMoveWithEating(Piece piece, List<Piece> beetweenDiagonalPieces, Coordinate... coordinates){
+        Error error = piece.isCorrectMovement(beetweenDiagonalPieces, 0, coordinates);
+        if (error == null && !beetweenDiagonalPieces.isEmpty() && isEmpty(coordinates[1]))
             return true;
         return false;
     }
