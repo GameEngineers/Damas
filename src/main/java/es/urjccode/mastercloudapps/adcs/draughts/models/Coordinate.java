@@ -90,25 +90,8 @@ public class Coordinate {
         return diagonalCoordinates;
     }
 
-    Coordinate getNextCoordinateOnCoordinateDirection(Coordinate coordinate){
-        assert this.getDirection(coordinate) != null;
-        Direction direction = this.getDirection(coordinate);
-        Coordinate nextCoordinate = this.plus(direction.getDistanceCoordinate(getDiagonalDistance(coordinate) + 1));
-        if (nextCoordinate.isWithIn())
-            return nextCoordinate;
-        return null;
-    }
-
     boolean isBlack() {
         return (this.row + this.column) % 2 != 0;
-    }
-
-    public boolean isLast() {
-        return this.row == Coordinate.UPPER_LIMIT;
-    }
-
-    public boolean isFirst() {
-        return this.row == Coordinate.LOWER_LIMIT;
     }
 
     int getRow() {
