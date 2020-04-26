@@ -348,7 +348,7 @@ public class CorrectMovesDraughtGameTest extends GameTest {
     public void testGivenGameWhenMoveWhiteWithoutEatingThenLoosePieceCanEat() {
         setGame(Color.WHITE,
             " B      ",
-            "    n   ",
+            "        ",
             "       n",
             "  B   b ",
             " n      ",
@@ -357,7 +357,7 @@ public class CorrectMovesDraughtGameTest extends GameTest {
             "  B     ");
         setExpectedGame(Color.BLACK,
             " B      ",
-            "    n   ",
+            "        ",
             "       n",
             "      b ",
             " n      ",
@@ -377,9 +377,9 @@ public class CorrectMovesDraughtGameTest extends GameTest {
             "b  b    ",
             "      b ",
             "        ",
-            "      N ",
+            "        ",
             " n   b  ",
-            "        ");
+            "    N   ");
         setExpectedGame(Color.WHITE,
             "        ",
             "      N ",
