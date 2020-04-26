@@ -116,20 +116,14 @@ class Board {
     }
 
     private boolean canEat(Piece piece, Coordinate coordinate) {
-        HashSet<Direction> directionsCantEat = new HashSet<Direction>();
         for (int nivel = 1; nivel < Coordinate.getDimension(); nivel++) {
             List<Coordinate> diagonalCoordinates = coordinate.getDiagonalCoordinates(nivel);
             for (Coordinate diagonalCoordinate : diagonalCoordinates) {
-                switch (piece.getCode()) {
-                    case "B":
-                    case "N":
-                        if (piece.draughtCanEat(coordinate, directionsCantEat, diagonalCoordinate, this))
-                            return true;
-                    case "b":
-                    case "n":
-                        if (piece.pawnCanEat(coordinate, diagonalCoordinate, this))
-                            return true;
-                }
+                List<Piece> pieces = getBetweenDiagonalPieces(coordinate, diagonalCoordinate);
+                Coordinate[] coordinates = { coordinate, diagonalCoordinate};
+                Error error = piece.isCorrectMovement(pieces, 0, coordinates);
+                if (error == null && !pieces.isEmpty() && isEmpty(diagonalCoordinate))
+                    return true;
             }
         }
         return false;
