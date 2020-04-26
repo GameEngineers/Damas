@@ -90,11 +90,6 @@ public class Game {
 			this.board.remove(forRemoving);
 		}
 		this.board.move(coordinates[pair], coordinates[pair + 1]);
-		if (this.board.getPiece(coordinates[pair + 1]).isLimit(coordinates[pair + 1])) {
-			Color color = this.board.getColor(coordinates[pair + 1]);
-			this.board.remove(coordinates[pair + 1]);
-			this.board.put(coordinates[pair + 1], new Draught(color));
-		}
 	}
 
 	private Coordinate getBetweenDiagonalPiece(int pair, Coordinate... coordinates) {
