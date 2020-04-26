@@ -21,7 +21,14 @@ public class Pawn {
 		for(Pawn pawn : betweenDiagonalPawns)
 			if (this.color == pawn.getColor())
 				return Error.COLLEAGUE_EATING;
-		return this.isCorrectDiagonalMovement(betweenDiagonalPawns.size(), pair, coordinates);
+        if (!this.isAdvanced(coordinates[pair], coordinates[pair+1]))
+            return Error.NOT_ADVANCED;
+        int distance = coordinates[pair].getDiagonalDistance(coordinates[pair+1]);
+        if (distance > Pawn.MAX_DISTANCE)
+            return Error.TOO_MUCH_ADVANCED;
+        if (distance == Pawn.MAX_DISTANCE && betweenDiagonalPawns.size() != 1)
+            return Error.WITHOUT_EATING;
+        return null;
 	}
 
 	boolean isAdvanced(Coordinate origin, Coordinate target) {
@@ -45,17 +52,6 @@ public class Pawn {
 	public String getCode(){
 		return Pawn.CODES[this.color.ordinal()];
 	}
-
-    Error isCorrectDiagonalMovement(int amountBetweenDiagonalPieces, int pair, Coordinate... coordinates) {
-        if (!this.isAdvanced(coordinates[pair], coordinates[pair+1]))
-            return Error.NOT_ADVANCED;
-        int distance = coordinates[pair].getDiagonalDistance(coordinates[pair+1]);
-        if (distance > Pawn.MAX_DISTANCE)
-            return Error.TOO_MUCH_ADVANCED;
-        if (distance == Pawn.MAX_DISTANCE && amountBetweenDiagonalPieces != 1)
-            return Error.WITHOUT_EATING;
-        return null;
-    }
 
 	@Override
 	public int hashCode() {
