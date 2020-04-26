@@ -8,6 +8,10 @@ public class Pawn {
 	private static String[] CODES = {"b", "n"};
     private static final int MAX_DISTANCE = 2;
 
+    public static int getMaxDistance(){
+        return MAX_DISTANCE;
+    }
+
 	Pawn(Color color) {
 		assert color != null;
 		this.color = color;

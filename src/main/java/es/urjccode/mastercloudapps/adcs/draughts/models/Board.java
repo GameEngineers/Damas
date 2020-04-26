@@ -101,7 +101,7 @@ class Board {
     }
 
     private boolean canEat(Pawn pawn, Coordinate coordinate) {
-        List<Coordinate> diagonalCoordinates = coordinate.getDiagonalCoordinates(2);
+        List<Coordinate> diagonalCoordinates = coordinate.getDiagonalCoordinates(Pawn.getMaxDistance());
         for (Coordinate diagonalCoordinate : diagonalCoordinates) {
             Coordinate[] coordinates = {coordinate, diagonalCoordinate};
             if (canMoveEating(pawn, coordinates))
