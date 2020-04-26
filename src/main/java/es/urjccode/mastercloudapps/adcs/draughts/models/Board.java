@@ -104,18 +104,18 @@ class Board {
         for (int nivel = 1; nivel < Coordinate.getDimension(); nivel++) {
             List<Coordinate> diagonalCoordinates = coordinate.getDiagonalCoordinates(nivel);
             for (Coordinate diagonalCoordinate : diagonalCoordinates) {
-                List<Piece> pieces = getBetweenDiagonalPieces(coordinate, diagonalCoordinate);
                 Coordinate[] coordinates = {coordinate, diagonalCoordinate};
-                if (canMoveEating(piece, pieces, coordinates))
+                if (canMoveEating(piece, coordinates))
                     return true;
             }
         }
         return false;
     }
 
-    private boolean canMoveEating(Piece piece, List<Piece> beetweenDiagonalPieces, Coordinate... coordinates) {
+    private boolean canMoveEating(Piece piece, Coordinate... coordinates) {
+        List<Piece> beetweenDiagonalPieces = getBetweenDiagonalPieces(coordinates[0], coordinates[coordinates.length - 1]);
         Error error = piece.isCorrectMovement(beetweenDiagonalPieces, 0, coordinates);
-        if (error == null && !beetweenDiagonalPieces.isEmpty() && isEmpty(coordinates[1]))
+        if (error == null && !beetweenDiagonalPieces.isEmpty() && isEmpty(coordinates[coordinates.length - 1]))
             return true;
         return false;
     }
