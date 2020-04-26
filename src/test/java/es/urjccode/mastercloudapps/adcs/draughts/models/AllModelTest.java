@@ -7,7 +7,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
     DirectionTest.class,
     CoordinateTest.class,
-    PieceTest.class,
+    PawnTest.class,
     GameBuilderTest.class,
     InitialGameTest.class,
     IncorrectMovesPawnGameTest.class,

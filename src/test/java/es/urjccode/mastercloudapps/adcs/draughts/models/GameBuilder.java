@@ -1,14 +1,9 @@
 package es.urjccode.mastercloudapps.adcs.draughts.models;
 
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
-import org.mockito.Mockito;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.regex.Pattern;
-
-import static org.mockito.Mockito.when;
 
 public class GameBuilder {
 
@@ -50,7 +45,7 @@ public class GameBuilder {
 
     private void setColor(Game game, Board board) {
         if (this.color == Color.BLACK) {
-            board.put(new Coordinate(7, 0), new Piece(Color.WHITE));
+            board.put(new Coordinate(7, 0), new Pawn(Color.WHITE));
             game.move(new Coordinate(7, 0), new Coordinate(6, 1));
             board.remove(new Coordinate(6, 1));
         }
@@ -60,8 +55,8 @@ public class GameBuilder {
         for (int j = 0; j < string.length(); j++) {
             Color color = this.getColor(string.charAt(j));
             if (color != null) {
-                Piece piece = new Piece(color);
-                board.put(new Coordinate(row, j), piece);
+                Pawn pawn = new Pawn(color);
+                board.put(new Coordinate(row, j), pawn);
             }
         }
     }

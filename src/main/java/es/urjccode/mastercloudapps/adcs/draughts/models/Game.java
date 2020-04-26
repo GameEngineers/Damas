@@ -26,10 +26,10 @@ public class Game {
 			for (int j = 0; j < Coordinate.getDimension(); j++) {
 				Coordinate coordinate = new Coordinate(i, j);
 				Color color = Color.getInitialColor(coordinate);
-				Piece piece = null;
+				Pawn pawn = null;
 				if (color != null)
-					piece = new Piece(color);
-				this.board.put(coordinate, piece);
+					pawn = new Pawn(color);
+				this.board.put(coordinate, pawn);
 			}
 		if (this.turn.getColor() != Color.WHITE)
 			this.turn.change();
@@ -78,9 +78,9 @@ public class Game {
 			return Error.OPPOSITE_PIECE;
 		if (!this.board.isEmpty(coordinates[pair + 1]))
 			return Error.NOT_EMPTY_TARGET;
-		List<Piece> betweenDiagonalPieces =
+		List<Pawn> betweenDiagonalPawns =
 			this.board.getBetweenDiagonalPieces(coordinates[pair], coordinates[pair + 1]);
-		return this.board.getPiece(coordinates[pair]).isCorrectMovement(betweenDiagonalPieces, pair, coordinates);
+		return this.board.getPiece(coordinates[pair]).isCorrectMovement(betweenDiagonalPawns, pair, coordinates);
 	}
 
 	private void pairMove(List<Coordinate> removedCoordinates, int pair, Coordinate... coordinates) {
@@ -116,7 +116,7 @@ public class Game {
 		for (int j = pair; j > 0; j--)
 			this.board.move(coordinates[j], coordinates[j - 1]);
 		for (Coordinate removedPiece : removedCoordinates)
-			this.board.put(removedPiece, new Piece(this.getOppositeTurnColor()));
+			this.board.put(removedPiece, new Pawn(this.getOppositeTurnColor()));
 	}
 
 	public boolean isBlocked() {
@@ -153,7 +153,7 @@ public class Game {
 		return this.turn.getOppositeColor();
 	}
 
-	public Piece getPiece(Coordinate coordinate) {
+	public Pawn getPiece(Coordinate coordinate) {
 		assert coordinate != null;
 		return this.board.getPiece(coordinate);
 	}

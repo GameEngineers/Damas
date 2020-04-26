@@ -6,29 +6,29 @@ import java.util.List;
 
 class Board {
 
-    private Piece[][] pieces;
+    private Pawn[][] pawns;
 
     Board() {
-        this.pieces = new Piece[Coordinate.getDimension()][Coordinate.getDimension()];
+        this.pawns = new Pawn[Coordinate.getDimension()][Coordinate.getDimension()];
         for (int i = 0; i < Coordinate.getDimension(); i++)
             for (int j = 0; j < Coordinate.getDimension(); j++)
-                this.pieces[i][j] = null;
+                this.pawns[i][j] = null;
     }
 
-    Piece getPiece(Coordinate coordinate) {
+    Pawn getPiece(Coordinate coordinate) {
         assert coordinate != null;
-        return this.pieces[coordinate.getRow()][coordinate.getColumn()];
+        return this.pawns[coordinate.getRow()][coordinate.getColumn()];
     }
 
-    void put(Coordinate coordinate, Piece piece) {
-        this.pieces[coordinate.getRow()][coordinate.getColumn()] = piece;
+    void put(Coordinate coordinate, Pawn pawn) {
+        this.pawns[coordinate.getRow()][coordinate.getColumn()] = pawn;
     }
 
-    Piece remove(Coordinate coordinate) {
+    Pawn remove(Coordinate coordinate) {
         assert this.getPiece(coordinate) != null;
-        Piece piece = this.getPiece(coordinate);
+        Pawn pawn = this.getPiece(coordinate);
         this.put(coordinate, null);
-        return piece;
+        return pawn;
     }
 
     void move(Coordinate origin, Coordinate target) {
@@ -36,22 +36,22 @@ class Board {
         this.put(target, this.remove(origin));
     }
 
-    List<Piece> getBetweenDiagonalPieces(Coordinate origin, Coordinate target) {
-        List<Piece> betweenDiagonalPieces = new ArrayList<Piece>();
+    List<Pawn> getBetweenDiagonalPieces(Coordinate origin, Coordinate target) {
+        List<Pawn> betweenDiagonalPawns = new ArrayList<Pawn>();
         if (origin.isOnDiagonal(target))
             for (Coordinate coordinate : origin.getBetweenDiagonalCoordinates(target)) {
-                Piece piece = this.getPiece(coordinate);
-                if (piece != null)
-                    betweenDiagonalPieces.add(piece);
+                Pawn pawn = this.getPiece(coordinate);
+                if (pawn != null)
+                    betweenDiagonalPawns.add(pawn);
             }
-        return betweenDiagonalPieces;
+        return betweenDiagonalPawns;
     }
 
     Color getColor(Coordinate coordinate) {
-        final Piece piece = this.getPiece(coordinate);
-        if (piece == null)
+        final Pawn pawn = this.getPiece(coordinate);
+        if (pawn == null)
             return null;
-        return piece.getColor();
+        return pawn.getColor();
     }
 
     boolean isEmpty(Coordinate coordinate) {
@@ -78,11 +78,11 @@ class Board {
     private String toStringHorizontalPiecesWithNumbers(int row) {
         String string = " " + row;
         for (int j = 0; j < Coordinate.getDimension(); j++) {
-            Piece piece = this.getPiece(new Coordinate(row, j));
-            if (piece == null)
+            Pawn pawn = this.getPiece(new Coordinate(row, j));
+            if (pawn == null)
                 string += " ";
             else {
-                string += piece;
+                string += pawn;
             }
         }
         return string + row + "\n";
@@ -93,29 +93,29 @@ class Board {
         List<Coordinate> piecesCanEat = new ArrayList<Coordinate>();
         List<Coordinate> coordinatesWithActualColor = getCoordinatesWithActualColor(color);
         for (Coordinate coordinate : coordinatesWithActualColor) {
-            Piece piece = getPiece(coordinate);
-            if (!lastMoveCoordinate.equals(coordinate) && this.canEat(piece, coordinate))
+            Pawn pawn = getPiece(coordinate);
+            if (!lastMoveCoordinate.equals(coordinate) && this.canEat(pawn, coordinate))
                 piecesCanEat.add(coordinate);
         }
         return piecesCanEat;
     }
 
-    private boolean canEat(Piece piece, Coordinate coordinate) {
+    private boolean canEat(Pawn pawn, Coordinate coordinate) {
         for (int nivel = 1; nivel < Coordinate.getDimension(); nivel++) {
             List<Coordinate> diagonalCoordinates = coordinate.getDiagonalCoordinates(nivel);
             for (Coordinate diagonalCoordinate : diagonalCoordinates) {
                 Coordinate[] coordinates = {coordinate, diagonalCoordinate};
-                if (canMoveEating(piece, coordinates))
+                if (canMoveEating(pawn, coordinates))
                     return true;
             }
         }
         return false;
     }
 
-    private boolean canMoveEating(Piece piece, Coordinate... coordinates) {
-        List<Piece> beetweenDiagonalPieces = getBetweenDiagonalPieces(coordinates[0], coordinates[coordinates.length - 1]);
-        Error error = piece.isCorrectMovement(beetweenDiagonalPieces, 0, coordinates);
-        if (error == null && !beetweenDiagonalPieces.isEmpty() && isEmpty(coordinates[coordinates.length - 1]))
+    private boolean canMoveEating(Pawn pawn, Coordinate... coordinates) {
+        List<Pawn> betweenDiagonalPawns = getBetweenDiagonalPieces(coordinates[0], coordinates[coordinates.length - 1]);
+        Error error = pawn.isCorrectMovement(betweenDiagonalPawns, 0, coordinates);
+        if (error == null && !betweenDiagonalPawns.isEmpty() && isEmpty(coordinates[coordinates.length - 1]))
             return true;
         return false;
     }
@@ -124,7 +124,7 @@ class Board {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + Arrays.deepHashCode(pieces);
+        result = prime * result + Arrays.deepHashCode(pawns);
         return result;
     }
 
@@ -137,7 +137,7 @@ class Board {
         if (getClass() != obj.getClass())
             return false;
         Board other = (Board) obj;
-        if (!Arrays.deepEquals(pieces, other.pieces))
+        if (!Arrays.deepEquals(pawns, other.pawns))
             return false;
         return true;
     }
@@ -147,8 +147,8 @@ class Board {
         for (int i = 0; i < Coordinate.getDimension(); i++) {
             for (int j = 0; j < Coordinate.getDimension(); j++) {
                 Coordinate coordinate = new Coordinate(i, j);
-                Piece piece = getPiece(coordinate);
-                if (piece != null && piece.getColor() == color)
+                Pawn pawn = getPiece(coordinate);
+                if (pawn != null && pawn.getColor() == color)
                     coordinates.add(coordinate);
             }
         }

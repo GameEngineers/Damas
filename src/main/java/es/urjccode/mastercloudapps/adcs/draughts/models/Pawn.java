@@ -2,27 +2,27 @@ package es.urjccode.mastercloudapps.adcs.draughts.models;
 
 import java.util.List;
 
-public class Piece {
+public class Pawn {
 
 	protected Color color;
 	private static String[] CODES = {"b", "n"};
     private static char[] CHARACTERS = {'b', 'n'};
     private static final int MAX_DISTANCE = 2;
 
-	Piece(Color color) {
+	Pawn(Color color) {
 		assert color != null;
 		this.color = color;
 	}
 
-	Error isCorrectMovement(List<Piece> betweenDiagonalPieces, int pair, Coordinate... coordinates){
+	Error isCorrectMovement(List<Pawn> betweenDiagonalPawns, int pair, Coordinate... coordinates){
 		assert coordinates[pair] != null;
 		assert coordinates[pair + 1] != null;
 		if (!coordinates[pair].isOnDiagonal(coordinates[pair + 1]))
 			return Error.NOT_DIAGONAL;
-		for(Piece piece : betweenDiagonalPieces)
-			if (this.color == piece.getColor())
+		for(Pawn pawn : betweenDiagonalPawns)
+			if (this.color == pawn.getColor())
 				return Error.COLLEAGUE_EATING;
-		return this.isCorrectDiagonalMovement(betweenDiagonalPieces.size(), pair, coordinates);
+		return this.isCorrectDiagonalMovement(betweenDiagonalPawns.size(), pair, coordinates);
 	}
 
 	boolean isLimit(Coordinate coordinate) {
@@ -49,22 +49,22 @@ public class Piece {
 	}
 
 	public String getCode(){
-		return Piece.CODES[this.color.ordinal()];
+		return Pawn.CODES[this.color.ordinal()];
 	}
 
     Error isCorrectDiagonalMovement(int amountBetweenDiagonalPieces, int pair, Coordinate... coordinates) {
         if (!this.isAdvanced(coordinates[pair], coordinates[pair+1]))
             return Error.NOT_ADVANCED;
         int distance = coordinates[pair].getDiagonalDistance(coordinates[pair+1]);
-        if (distance > Piece.MAX_DISTANCE)
+        if (distance > Pawn.MAX_DISTANCE)
             return Error.TOO_MUCH_ADVANCED;
-        if (distance == Piece.MAX_DISTANCE && amountBetweenDiagonalPieces != 1)
+        if (distance == Pawn.MAX_DISTANCE && amountBetweenDiagonalPieces != 1)
             return Error.WITHOUT_EATING;
         return null;
     }
 
     protected char[] getCodes() {
-        return Piece.CHARACTERS;
+        return Pawn.CHARACTERS;
     }
 
 
@@ -84,7 +84,7 @@ public class Piece {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Piece other = (Piece) obj;
+		Pawn other = (Pawn) obj;
 		if (color != other.color)
 			return false;
 		return true;
