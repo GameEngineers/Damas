@@ -1,5 +1,6 @@
 package es.urjccode.mastercloudapps.adcs.draughts.models;
 
+import java.util.HashSet;
 import java.util.List;
 
 public abstract class Piece {
@@ -73,4 +74,32 @@ public abstract class Piece {
 			return false;
 		return true;
 	}
+
+    Boolean canEatPawn(Coordinate coordinate, Coordinate diagonalCoordinate, Board board) {
+        Piece pieceToEat = board.getPiece(diagonalCoordinate);
+        if (coordinate.getDiagonalDistance(diagonalCoordinate) == 1) {
+            if (pieceToEat != null && pieceToEat.getColor() != getColor() && isAdvanced(coordinate, diagonalCoordinate)) {
+                Coordinate nextCoordinateOnDirection = coordinate.getNextCoordinateOnCoordinateDirection(diagonalCoordinate);
+                if (nextCoordinateOnDirection != null && board.getPiece(nextCoordinateOnDirection) == null)
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    boolean canEatDraught(Coordinate coordinate, HashSet<Direction> directionsCantEat, Coordinate diagonalCoordinate, Board board) {
+        Piece pieceToEat = board.getPiece(diagonalCoordinate);
+        Direction coordinateDirection = coordinate.getDirection(diagonalCoordinate);
+        if (pieceToEat != null && pieceToEat.getColor() != getColor() && isAdvanced(coordinate, diagonalCoordinate)) {
+            if (!directionsCantEat.contains(coordinateDirection)) {
+                Coordinate nextCoordinateOnDirection = coordinate.getNextCoordinateOnCoordinateDirection(diagonalCoordinate);
+                if (nextCoordinateOnDirection != null && board.getPiece(nextCoordinateOnDirection) == null)
+                    return true;
+                if (nextCoordinateOnDirection == null || board.getPiece(nextCoordinateOnDirection) != null)
+                    directionsCantEat.add(coordinateDirection);
+            }
+        } else if ((pieceToEat != null && pieceToEat.getColor() == getColor()) || !isAdvanced(coordinate, diagonalCoordinate))
+            directionsCantEat.add(coordinateDirection);
+        return false;
+    }
 }
