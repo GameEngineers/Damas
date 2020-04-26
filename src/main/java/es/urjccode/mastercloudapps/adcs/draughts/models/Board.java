@@ -125,12 +125,10 @@ class Board {
                     case "N":
                         if (canEatDraught(piece, coordinate, directionsCantEat, nivelCoordinate))
                             return true;
-                        break;
                     case "b":
                     case "n":
-                        Boolean x = canEatPawn(piece, coordinate, nivel, nivelCoordinate);
-                        if (x != null) return x;
-                        break;
+                        if (canEatPawn(piece, coordinate, nivel, nivelCoordinate))
+                            return true;
                 }
             }
         }
@@ -145,9 +143,8 @@ class Board {
                 if (nextCoordinateOnDirection != null && getPiece(nextCoordinateOnDirection) == null)
                     return true;
             }
-        }else
-            return false;
-        return null;
+        }
+        return false;
     }
 
     private boolean canEatDraught(Piece piece, Coordinate coordinate, HashSet<Direction> directionsCantEat, Coordinate nivelCoordinate) {
