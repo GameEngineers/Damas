@@ -6,7 +6,6 @@ public class Pawn {
 
 	protected Color color;
 	private static String[] CODES = {"b", "n"};
-    private static char[] CHARACTERS = {'b', 'n'};
     private static final int MAX_DISTANCE = 2;
 
 	Pawn(Color color) {
@@ -23,11 +22,6 @@ public class Pawn {
 			if (this.color == pawn.getColor())
 				return Error.COLLEAGUE_EATING;
 		return this.isCorrectDiagonalMovement(betweenDiagonalPawns.size(), pair, coordinates);
-	}
-
-	boolean isLimit(Coordinate coordinate) {
-		return coordinate.isFirst() && this.getColor() == Color.WHITE
-				|| coordinate.isLast() && this.getColor() == Color.BLACK;
 	}
 
 	boolean isAdvanced(Coordinate origin, Coordinate target) {
@@ -62,11 +56,6 @@ public class Pawn {
             return Error.WITHOUT_EATING;
         return null;
     }
-
-    protected char[] getCodes() {
-        return Pawn.CHARACTERS;
-    }
-
 
 	@Override
 	public int hashCode() {
