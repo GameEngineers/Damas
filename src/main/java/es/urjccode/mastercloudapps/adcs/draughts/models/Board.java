@@ -146,4 +146,16 @@ class Board {
         return true;
     }
 
+    List<Coordinate> getCoordinatesWithActualColor(Game game) {
+        List<Coordinate> coordinates = new ArrayList<Coordinate>();
+        for (int i = 0; i < game.getDimension(); i++) {
+            for (int j = 0; j < game.getDimension(); j++) {
+                Coordinate coordinate = new Coordinate(i, j);
+                Piece piece = game.getPiece(coordinate);
+                if (piece != null && piece.getColor() == game.getTurnColor())
+                    coordinates.add(coordinate);
+            }
+        }
+        return coordinates;
+    }
 }

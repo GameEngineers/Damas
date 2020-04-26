@@ -125,26 +125,13 @@ public class Game {
 	}
 
 	public boolean isBlocked() {
-		for (Coordinate coordinate : this.getCoordinatesWithActualColor())
+		for (Coordinate coordinate : this.board.getCoordinatesWithActualColor(this))
 			if (!this.isBlocked(coordinate))
 				return false;
 		return true;
 	}
 
-	private List<Coordinate> getCoordinatesWithActualColor() {
-		List<Coordinate> coordinates = new ArrayList<Coordinate>();
-		for (int i = 0; i < this.getDimension(); i++) {
-			for (int j = 0; j < this.getDimension(); j++) {
-				Coordinate coordinate = new Coordinate(i, j);
-				Piece piece = this.getPiece(coordinate);
-				if (piece != null && piece.getColor() == this.getTurnColor())
-					coordinates.add(coordinate);
-			}
-		}
-		return coordinates;
-	}
-
-	private boolean isBlocked(Coordinate coordinate) {
+    private boolean isBlocked(Coordinate coordinate) {
 		for (int i = 1; i <= 2; i++)
 			for (Coordinate target : coordinate.getDiagonalCoordinates(i))
 				if (this.isCorrectPairMove(0, coordinate, target) == null)
@@ -153,7 +140,7 @@ public class Game {
 	}
 
 	public void cancel() {
-		for (Coordinate coordinate : this.getCoordinatesWithActualColor())
+		for (Coordinate coordinate : this.board.getCoordinatesWithActualColor(this))
 			this.board.remove(coordinate);
 		this.turn.change();
 	}
