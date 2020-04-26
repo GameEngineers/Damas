@@ -57,7 +57,7 @@ public class Game {
 
     private void checkRemovePiece(List<Coordinate> removedCoordinates, Coordinate lastCoordinateMove) {
         if (removedCoordinates.isEmpty()) {
-            List<Coordinate> coordinatesWithPieceCanEat = board.getCoordinatesWithPieceCanEat(turn.getColor(), lastCoordinateMove);
+            List<Coordinate> coordinatesWithPieceCanEat = board.getCoordinatesWithColorCanEat(turn.getColor(), lastCoordinateMove);
             if (!coordinatesWithPieceCanEat.isEmpty())
                 removeRandomPiece(coordinatesWithPieceCanEat);
         }

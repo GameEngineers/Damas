@@ -88,7 +88,7 @@ class Board {
         return string + row + "\n";
     }
 
-    public List<Coordinate> getCoordinatesWithPieceCanEat(Color color, Coordinate lastMoveCoordinate) {
+    public List<Coordinate> getCoordinatesWithColorCanEat(Color color, Coordinate lastMoveCoordinate) {
         assert color != null;
         List<Coordinate> piecesCanEat = new ArrayList<Coordinate>();
         List<Coordinate> coordinatesWithActualColor = getCoordinatesWithActualColor(color);
@@ -101,13 +101,11 @@ class Board {
     }
 
     private boolean canEat(Pawn pawn, Coordinate coordinate) {
-        for (int nivel = 1; nivel < Coordinate.getDimension(); nivel++) {
-            List<Coordinate> diagonalCoordinates = coordinate.getDiagonalCoordinates(nivel);
-            for (Coordinate diagonalCoordinate : diagonalCoordinates) {
-                Coordinate[] coordinates = {coordinate, diagonalCoordinate};
-                if (canMoveEating(pawn, coordinates))
-                    return true;
-            }
+        List<Coordinate> diagonalCoordinates = coordinate.getDiagonalCoordinates(2);
+        for (Coordinate diagonalCoordinate : diagonalCoordinates) {
+            Coordinate[] coordinates = {coordinate, diagonalCoordinate};
+            if (canMoveEating(pawn, coordinates))
+                return true;
         }
         return false;
     }
