@@ -74,40 +74,4 @@ public abstract class Piece {
 			return false;
 		return true;
 	}
-
-    boolean pawnCanEat(Coordinate coordinate, Coordinate diagonalCoordinate, Board board) {
-	    assert diagonalCoordinate != null;
-	    assert coordinate != null;
-	    assert board != null;
-	    assert coordinate.isOnDiagonal(diagonalCoordinate);
-        Piece pieceToEat = board.getPiece(diagonalCoordinate);
-        Coordinate nextCoordinateOnDirection = coordinate.getNextCoordinateOnCoordinateDirection(diagonalCoordinate);
-        if (pieceToEat == null || nextCoordinateOnDirection == null || board.getPiece(nextCoordinateOnDirection) != null)
-            return false;
-        if (coordinate.getDiagonalDistance(diagonalCoordinate) > 1)
-            return false;
-        return pieceToEat.getColor() != getColor() && isAdvanced(coordinate, diagonalCoordinate);
-    }
-
-    boolean draughtCanEat(Coordinate coordinate, HashSet<Direction> directionsCantEat, Coordinate diagonalCoordinate, Board board) {
-        assert diagonalCoordinate != null;
-        assert coordinate != null;
-        assert board != null;
-        assert coordinate.isOnDiagonal(diagonalCoordinate);
-        assert directionsCantEat != null;
-        Piece pieceToEat = board.getPiece(diagonalCoordinate);
-        Coordinate nextCoordinateOnDirection = coordinate.getNextCoordinateOnCoordinateDirection(diagonalCoordinate);
-        Direction diagonalDirection = coordinate.getDirection(diagonalCoordinate);
-        if (pieceToEat == null)
-            return false;
-        if (nextCoordinateOnDirection == null || board.getPiece(nextCoordinateOnDirection) != null) {
-            directionsCantEat.add(diagonalDirection);
-            return false;
-        }
-        if (pieceToEat.getColor() == getColor()) {
-            directionsCantEat.add(diagonalDirection);
-            return false;
-        }
-        return !directionsCantEat.contains(diagonalDirection);
-    }
 }
